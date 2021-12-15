@@ -1,4 +1,4 @@
-# BayurGo Framework
+# About BayurGo Framework
 
 BayurGo is a minimalist web framework written in Go (Golang). 
 <br>Good performance and is faster thanks to httprouter. If you need good performance and productivity, you'll love BayurGo<br>
