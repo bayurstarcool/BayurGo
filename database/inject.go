@@ -33,7 +33,7 @@ func SetupDB() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
-	print("database connected\n\n")
+	print("Database connected √\n\n")
 	db.LogMode(true)
 	return db
 }
