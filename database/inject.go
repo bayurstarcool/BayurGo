@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func goDotEnvVariable(key string) string {
+func getEnv(key string) string {
 
 	// load .env file
 	err := godotenv.Load(".env")
@@ -23,11 +23,11 @@ func goDotEnvVariable(key string) string {
 }
 
 func SetupDB() *gorm.DB {
-	dbUser := goDotEnvVariable("DB_USER")
-	dbPass := goDotEnvVariable("DB_PASSWORD")
-	dbName := goDotEnvVariable("DB_NAME")
-	dbHost := goDotEnvVariable("DB_HOST")
-	dbPort := goDotEnvVariable("DB_PORT")
+	dbUser := getEnv("DB_USER")
+	dbPass := getEnv("DB_PASSWORD")
+	dbName := getEnv("DB_NAME")
+	dbHost := getEnv("DB_HOST")
+	dbPort := getEnv("DB_PORT")
 	URL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 	db, err := gorm.Open("mysql", URL)
 	if err != nil {
