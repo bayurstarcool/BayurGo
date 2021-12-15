@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/bayurstarcool/bayurGo/app/controllers"
-	"github.com/bayurstarcool/bayurGo/app/models"
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
@@ -55,13 +54,14 @@ func recoverHandler(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(fn)
 }
-func RouteApp(appContext *models.AppContext) (r *router) {
+func RouteApp(appContext *controllers.AppContext) (r *router) {
 	appC := appContext
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
-	router.Get("/admin", commonHandlers.Append(appC.AuthHandler).ThenFunc(appC.AdminHandler))
+	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
+	// router.Get("/admin", commonHandlers.Append(appC.AuthHandler).ThenFunc(appC.AdminHandler))
 	router.Get("/about", commonHandlers.ThenFunc(controllers.AboutHandler))
-	router.Get("/", commonHandlers.ThenFunc(controllers.IndexHandler))
-	router.Get("/teas/:id", commonHandlers.ThenFunc(appC.TeaHandler))
+	router.Get("/", commonHandlers.ThenFunc(appC.IndexHandler))
+	router.Get("/teas/:query", commonHandlers.ThenFunc(appC.TeaHandler))
 	return router
 }
