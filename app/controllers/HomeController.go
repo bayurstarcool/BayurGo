@@ -3,17 +3,17 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/bayurstarcool/bayurGo/app/models"
+	"github.com/bayurstarcool/BayurGo/app/models"
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 )
 
-func AboutHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "You are on the about page.")
+func Dashboard(w http.ResponseWriter, r *http.Request) {
+	tpls := []string{"views/layouts/backend.html", "views/layouts/partial.html", "views/dashboard.html"}
+	rnd.Template(w, http.StatusOK, tpls, nil)
 }
 
 func (c *AppContext) IndexHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +21,8 @@ func (c *AppContext) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	// user := []models.User{}
 	// db.Find(&user)
 	// json.NewEncoder(w).Encode(user)
-	rnd.HTML(w, http.StatusOK, "welcome.html", nil)
+	tpls := []string{"views/layouts/app.html", "views/layouts/partial.html", "views/welcome.html"}
+	rnd.Template(w, http.StatusOK, tpls, nil)
 }
 
 func AuthHandler(next http.Handler) http.Handler {

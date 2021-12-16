@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/bayurstarcool/bayurGo/app/helpers"
+	"github.com/bayurstarcool/BayurGo/app/helpers"
 )
 
 func MyNotFound(w http.ResponseWriter, r *http.Request) {

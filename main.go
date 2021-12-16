@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"github.com/bayurstarcool/bayurGo/app/controllers"
-	"github.com/bayurstarcool/bayurGo/database"
-	"github.com/bayurstarcool/bayurGo/route"
+	"github.com/bayurstarcool/BayurGo/app/controllers"
+	"github.com/bayurstarcool/BayurGo/database"
+	"github.com/bayurstarcool/BayurGo/route"
 )
 
 func main() {

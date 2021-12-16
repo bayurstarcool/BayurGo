@@ -1,0 +1,56 @@
+{{define "content"}}
+<div class="page-breadcrumb">
+    <div class="row align-items-center">
+        <div class="col-5">
+            <h4 class="page-title">Edit Todo</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="text-end upgrade-btn">
+                <a href="/new/todo" class="btn btn-danger text-white"
+                    target="_blank">Create</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12 col-xlg-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/todos" method="POST">
+                        <div class="form-group">
+                            <label class="col-md-12">Todo Name</label>
+                            <div class="col-md-12">
+                                <input name="name" required type="text" placeholder="My todolist" class="form-control form-control-line">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="example-email" class="col-md-12">Note</label>
+                            <div class="col-md-12">
+                                <textarea required name="note" placeholder="helo, my name is Wahyu Prasetyo" class="form-control form-control-line"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-success text-white">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+
+</div>
+{{end}}

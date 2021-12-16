@@ -1,0 +1,59 @@
+{{define "content"}}
+<div class="page-breadcrumb">
+    <div class="row align-items-center">
+        <div class="col-5">
+            <h4 class="page-title">Users</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="text-end upgrade-btn">
+                <a href="/new/users" class="btn btn-danger text-white">Create</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">User List</h4>
+                    <h6 class="card-subtitle">List users from database</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range $i, $users := .}}
+                        
+                            <tr>
+                                <th scope="row">{{inc $i}}</th>
+                                <td>{{.Name}}</td>
+                                <td>{{.Email}}</td>
+                                <td><a href="/users/{{.ID}}/edit">Edit</a> | Delete</td>
+                            </tr>
+                  {{ end }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{{end}}

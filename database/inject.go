@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/bayurstarcool/bayurGo/app/helpers"
+	"github.com/bayurstarcool/BayurGo/app/helpers"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
