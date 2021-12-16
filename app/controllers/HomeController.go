@@ -60,6 +60,5 @@ func (c *AppContext) TeaHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("{users: Not Found}")
 		return
 	}
-	// tea := getTea(c.db, params.ByName("id"))
 	json.NewEncoder(w).Encode(users)
 }

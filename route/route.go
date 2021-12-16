@@ -40,6 +40,7 @@ func loggingHandler(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(fn)
 }
+
 func recoverHandler(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
@@ -58,6 +59,7 @@ func RouteApp(appContext *controllers.AppContext) (r *router) {
 	appC := appContext
 	commonHandlers := alice.New(context.ClearHandler, loggingHandler, recoverHandler)
 	router := NewRouter()
+	router.NotFound = http.HandlerFunc(controllers.MyNotFound)
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
 	// router.Get("/admin", commonHandlers.Append(appC.AuthHandler).ThenFunc(appC.AdminHandler))
 	router.Get("/about", commonHandlers.ThenFunc(controllers.AboutHandler))
