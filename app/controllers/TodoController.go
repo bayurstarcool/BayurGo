@@ -12,7 +12,7 @@ import (
 
 func TodoCreate(w http.ResponseWriter, r *http.Request) {
 	tpls := []string{"views/layouts/backend.html", "views/backend/todos/create.html"}
-	rnd.Template(w, http.StatusOK, tpls, nil)
+	rnd.Template(w, r, http.StatusOK, tpls, nil)
 }
 func (c *AppContext) TodoStore(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	name := r.FormValue("name")
@@ -36,7 +36,7 @@ func (c *AppContext) TodoEdit(w http.ResponseWriter, r *http.Request) {
 	todo := models.Todo{}
 	db.Where("id = ?", id).First(&todo)
 	tpls := []string{"views/layouts/backend.html", "views/backend/todos/edit.html"}
-	rnd.Template(w, http.StatusOK, tpls, todo)
+	rnd.Template(w, r, http.StatusOK, tpls, todo)
 }
 func (c *AppContext) TodoIndex(w http.ResponseWriter, r *http.Request) {
 	db := c.DB
@@ -46,5 +46,5 @@ func (c *AppContext) TodoIndex(w http.ResponseWriter, r *http.Request) {
 	rnd.FuncMap(template.FuncMap{
 		"inc": helpers.GetIncrement,
 	})
-	rnd.Template(w, http.StatusOK, tpls, todos)
+	rnd.Template(w, r, http.StatusOK, tpls, todos)
 }

@@ -8,11 +8,13 @@ import (
 	"github.com/bayurstarcool/BayurGo/app/models"
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/nosurf"
 )
 
 func UserCreate(w http.ResponseWriter, r *http.Request) {
 	tpls := []string{"views/layouts/backend.html", "views/backend/users/create.html"}
-	rnd.Template(w, http.StatusOK, tpls, nil)
+	token := nosurf.Token(r)
+	rnd.Template(w, r, http.StatusOK, tpls, models.M{"token": token})
 }
 func (c *AppContext) UserStore(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	name := r.FormValue("name")
@@ -37,7 +39,7 @@ func (c *AppContext) UserEdit(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
 	db.Where("id = ?", id).First(&user)
 	tpls := []string{"views/layouts/backend.html", "views/backend/users/edit.html"}
-	rnd.Template(w, http.StatusOK, tpls, user)
+	rnd.Template(w, r, http.StatusOK, tpls, models.M{"user": user})
 }
 func (c *AppContext) UserIndex(w http.ResponseWriter, r *http.Request) {
 	db := c.DB
@@ -47,5 +49,5 @@ func (c *AppContext) UserIndex(w http.ResponseWriter, r *http.Request) {
 	rnd.FuncMap(template.FuncMap{
 		"inc": helpers.GetIncrement,
 	})
-	rnd.Template(w, http.StatusOK, tpls, users)
+	rnd.Template(w, r, http.StatusOK, tpls, models.M{"users": users, "success": true})
 }

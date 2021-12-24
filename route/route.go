@@ -14,11 +14,13 @@ func RouteApp(appContext *controllers.AppContext) (r *router) {
 	router := NewRouter()
 	router.NotFound = http.HandlerFunc(controllers.MyNotFound)
 	router.ServeFiles("/assets/*filepath", http.Dir("assets"))
-	// router.Get("/admin", commonHandlers.Append(appC.AuthHandler).ThenFunc(appC.AdminHandler))
+	router.Get("/admin", commonHandlers.Append(appC.AuthHandler).ThenFunc(appC.AdminHandler))
 	router.Get("/dashboard", commonHandlers.ThenFunc(controllers.Dashboard))
+
 	//User resources
 	router.Get("/users", commonHandlers.ThenFunc(appC.UserIndex))
 	router.POST("/users", appC.UserStore)
+	// router.POST("/token", controllers.TokenStore)
 	router.POST("/users/:id", appC.UserUpdate)
 	router.Get("/new/user", commonHandlers.ThenFunc(controllers.UserCreate))
 	router.Get("/users/:id/edit", commonHandlers.ThenFunc(appC.UserEdit))

@@ -39,10 +39,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{range $i, $todos := .}}
+                            {{range todos := .}}
                         
                             <tr>
-                                <th scope="row">{{inc $i}}</th>
+                                <th scope="row">{{1}}</th>
                                 <td>{{.Name}}</td>
                                 <td>{{.Note}}</td>
                                 <td><a href="/todos/{{.ID}}/edit">Edit</a> | Delete</td>

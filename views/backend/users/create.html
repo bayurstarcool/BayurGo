@@ -28,6 +28,8 @@
             <div class="card">
                 <div class="card-body">
                     <form action="/users" method="POST">
+                        {{.Data.nama}}
+                        <input type="hidden" name="csrf_token" value="{{ . }}">
                         <div class="form-group">
                             <label class="col-md-12">Full Name</label>
                             <div class="col-md-12">

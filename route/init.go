@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/nosurf"
 )
 
 func (r *router) Get(path string, handler http.Handler) {
@@ -51,5 +52,5 @@ func recoverHandler(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	}
 
-	return http.HandlerFunc(fn)
+	return nosurf.New(http.HandlerFunc(fn))
 }

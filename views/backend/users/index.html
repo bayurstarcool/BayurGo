@@ -39,7 +39,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{range $i, $users := .}}
+                            {{.csrf_token}}
+                            {{range $i, $users := .users}}
                         
                             <tr>
                                 <th scope="row">{{inc $i}}</th>
