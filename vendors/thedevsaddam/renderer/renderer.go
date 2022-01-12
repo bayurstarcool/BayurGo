@@ -24,9 +24,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/bayurstarcool/BayurGo/app/models"
+	"github.com/bayurstarcool/BayurGo/app"
 	config "github.com/bayurstarcool/BayurGo/config"
-	"github.com/imdario/mergo"
 	"github.com/justinas/nosurf"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -414,24 +413,13 @@ type BayurData struct {
 	AppVersion int    `json:"app_version"`
 }
 
-func mergeMaps(maps ...map[string]interface{}) map[string]interface{} {
-	result := make(map[string]interface{})
-	for _, m := range maps {
-		// fmt.Println(m, "\n")
-		for k, v := range m {
-			result[k] = v
-			// fmt.Println(v, "\n")
-		}
-	}
-	return result
-}
-func mergeKeys(left, right interface{}) models.M {
-	BayurData := right.(models.M)
-	GoData := left.(models.M)
+func mergeKeys(left, right interface{}) app.Compact {
+	BayurData := right.(app.Compact)
+	GoData := left.(app.Compact)
 	for key, rightVal := range BayurData {
 		if leftVal, present := GoData[key]; present {
 			//then we don't want to replace it - recurse
-			GoData[key] = mergeKeys(leftVal.(models.M), rightVal.(models.M))
+			GoData[key] = mergeKeys(leftVal.(app.Compact), rightVal.(app.Compact))
 		} else {
 			// key not in left so we can just shove it in
 			GoData[key] = rightVal
@@ -442,21 +430,28 @@ func mergeKeys(left, right interface{}) models.M {
 func isNil(v interface{}) bool {
 	return v == nil || (reflect.ValueOf(v).Kind() == reflect.Ptr && reflect.ValueOf(v).IsNil())
 }
-func AddTokenCSRF(inf interface{}, r *http.Request) interface{} {
+func AddTokenCSRF(w http.ResponseWriter, r *http.Request, inf interface{}) interface{} {
 	// csrf := []interface{}{BayurDT{CsrfToken: "BayurGo"}}
 	// vall := append([]interface{}{inf}, csrf...)
 	// b:= Add(inf,c)
 	// jk := BayurData{BayurDT{CsrfToken: nosurf.Token(r)}, inf}
-
+	fmt.Println("addtoken")
 	token := nosurf.Token(r)
-	data := models.M{"app_name": config.App_name, "app_version": config.App_version, "csrf_token": token}
+	data := app.Compact{"app_name": config.App_name, "app_version": config.App_version, "csrf_token": token}
 	if isNil(inf) {
+		fmt.Println("isNil")
 		return data
 	}
+	// for i := 0; i < reflect.TypeOf(inf).NumField(); i++ {
+	// 	if reflect.ValueOf(inf).Field(i).Kind() != reflect.Struct {
+	// 		fmt.Println("Must be models.Compact")
+	// 		return data
+	// 	}
+	// }
 	merged := mergeKeys(data, inf)
 
-	// jsonString, _ := json.Marshal(ok)
-
+	jsonString, _ := json.Marshal(merged)
+	fmt.Println(string(jsonString))
 	return merged
 }
 
@@ -474,8 +469,8 @@ func (r *Render) Template(w http.ResponseWriter, rq *http.Request, status int, t
 
 	buf := new(bytes.Buffer)
 	defer buf.Reset()
-	mergo.Merge(&v, v)
-	if err := t.Execute(buf, AddTokenCSRF(v, rq)); err != nil {
+	if err := t.Execute(buf, AddTokenCSRF(w, rq, v)); err != nil {
+		fmt.Println(err.Error())
 		return err
 	}
 	_, err := w.Write(buf.Bytes())

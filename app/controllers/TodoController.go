@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/bayurstarcool/BayurGo/app"
 	"github.com/bayurstarcool/BayurGo/app/helpers"
 	"github.com/bayurstarcool/BayurGo/app/models"
 	"github.com/gorilla/context"
@@ -46,5 +47,5 @@ func (c *AppContext) TodoIndex(w http.ResponseWriter, r *http.Request) {
 	rnd.FuncMap(template.FuncMap{
 		"inc": helpers.GetIncrement,
 	})
-	rnd.Template(w, r, http.StatusOK, tpls, todos)
+	rnd.Template(w, r, http.StatusOK, tpls, app.Compact{"todos": todos})
 }
